@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const schemas = require('../models/schemas');
+const schemas = require('../db/models/schemas');
 const { Schema } = require('mongoose');
 
 router.post('/procedures', async (req, res) => {
