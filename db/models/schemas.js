@@ -11,9 +11,9 @@ const categorySchema = new Schema({
     name: { type: String },
 });
 
-const Users = mongoose.model('Users', userSchema, 'users');
-const Categories = mongoose.model('Categories', categorySchema, 'categories');
+const User = mongoose.model('User', userSchema, 'users');
+const Category = mongoose.model('Category', categorySchema, 'categories');
 
-const mySchemas = { 'Users': Users, 'Categories': Categories };
+const mySchemas = { 'User': User, 'Category': Category };
 
 module.exports = mySchemas;

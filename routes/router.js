@@ -5,9 +5,11 @@ const { Schema } = require('mongoose');
 
 router.post('/procedures', async (req, res) => {
 
-    console.log('From Server...');
-    //const {categoryName, procedures} = req.body;
-   res.send('..');
+    const newCategory = req.body;
+    const myData = new MyModel(newData);
+    myData.save()
+      .then(() => res.send('Data saved successfully'))
+      .catch(err => res.status(500).send('Error saving data: ' + err));
 })
 
 module.exports = router;
