@@ -28,7 +28,7 @@ app.listen(port, () => {
 
 app.post("/admin/categories", async (req: Request, res: Response) => {
   const newCategory = req.body;
-  const myData = new schemas.Category(newCategory);
+  const myData = new schemas.Category(newCategory, []);
   const response = await myData.save();
   res.send(response);
   res.end();

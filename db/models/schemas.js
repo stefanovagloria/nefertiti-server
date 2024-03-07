@@ -1,19 +1,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-    name: { type: String },
-    email: { type: String },
-    entryDate: { type: Date, default: Date.now }
-});
-
 const categorySchema = new Schema({
     name: { type: String },
+    procedures: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Procedure', // Name of the referenced model (collection)
+    }]
+
 });
 
-const User = mongoose.model('User', userSchema, 'users');
-const Category = mongoose.model('Category', categorySchema, 'categories');
+const procedureSchema = new Schema({
+    name: { type: String },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    price: { type: Number },
+    promotionPrice: { type: Number },
+    description: { type: String },
+    characteristics: { type: Object },
+    relatedProducts: {}
+});
 
-const mySchemas = { 'User': User, 'Category': Category };
+const Category = mongoose.model('Category', categorySchema, 'categories');
+const Procedure = mongoose.model('Procedure', procedureSchema, 'procedures');
+
+const mySchemas = { 'Category': Category, 'Procedure': Procedure };
 
 module.exports = mySchemas;
