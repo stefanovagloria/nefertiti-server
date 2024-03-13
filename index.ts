@@ -35,6 +35,13 @@ app.post("/admin/categories", async (req: Request, res: Response) => {
 });
 
 app.get("/admin/categories", async (req: Request, res: Response) => {
-    const response = await schemas.Category.find();
-    res.json(response);
+  const response = await schemas.Category.find();
+  res.json(response);
+  res.end();
+});
+
+app.get("/admin/categories/:id", async (req: Request, res: Response) => {
+  const response = await schemas.Category.findById(req.params.id);
+  res.json(response);
+  res.end();
 });
