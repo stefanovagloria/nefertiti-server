@@ -11,16 +11,17 @@ const categorySchema = new Schema({
 });
 
 const procedureSchema = new Schema({
-    name: { type: String },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
     },
+    name: { type: String },
+    photos: {type: Array},
     price: { type: Number },
-    promotionPrice: { type: Number },
+    promoPrice: { type: Number },
+    characteristics: [{ type: Object }],
     description: { type: String },
-    characteristics: { type: Object },
-    relatedProducts: {}
+    relatedProducts: [{ type: Object }]
 });
 
 const Category = mongoose.model('Category', categorySchema, 'categories');

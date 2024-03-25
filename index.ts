@@ -45,3 +45,11 @@ app.get("/admin/categories/:id", async (req: Request, res: Response) => {
   res.json(response);
   res.end();
 });
+
+app.post("/admin/procedures", async (req: Request, res: Response) => {
+  const newProcedure = req.body;
+  const myData = new schemas.Procedure(newProcedure, []);
+  const response = await myData.save();
+  res.send(response);
+  res.end();
+});
