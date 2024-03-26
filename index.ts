@@ -46,6 +46,16 @@ app.get("/admin/categories/:id", async (req: Request, res: Response) => {
   res.end();
 });
 
+app.get("/admin/procedures/:id", async (req: Request, res: Response) => {
+  const procedures = await schemas.Procedure.find({
+     category: req.params.id 
+  });
+
+
+  res.json(procedures);
+  res.end();
+});
+
 app.post("/admin/procedures", async (req: Request, res: Response) => {
   const newProcedure = req.body;
   const myData = new schemas.Procedure(newProcedure, []);
