@@ -16,7 +16,7 @@ const procedureSchema = new Schema({
         ref: 'Category'
     },
     name: { type: String },
-    photos: {type: Array},
+    photos: { type: Array },
     price: { type: Number },
     promoPrice: { type: Number },
     characteristics: [{ type: Object }],
@@ -24,9 +24,23 @@ const procedureSchema = new Schema({
     relatedProducts: [{ type: Object }]
 });
 
+
+const productSchema = new Schema({
+
+    name: { type: String },
+    photos: { type: Array },
+    price: { type: Number },
+    promoPrice: { type: Number },
+    characteristics: [{ type: Object }],
+    description: { type: String },
+    relatedProducts: [{ type: Object }]
+});
+
+
 const Category = mongoose.model('Category', categorySchema, 'categories');
 const Procedure = mongoose.model('Procedure', procedureSchema, 'procedures');
+const Product = mongoose.model('Product', procedureSchema, 'products');
 
-const mySchemas = { 'Category': Category, 'Procedure': Procedure };
+const mySchemas = { 'Category': Category, 'Procedure': Procedure , 'Product': Product};
 
 module.exports = mySchemas;

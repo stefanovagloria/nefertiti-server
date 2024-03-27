@@ -63,3 +63,12 @@ app.post("/admin/procedures", async (req: Request, res: Response) => {
   res.send(response);
   res.end();
 });
+
+app.post("/admin/products", async (req: Request, res: Response) => {
+  const newProduct = req.body;
+  const myData = new schemas.Product(newProduct, []);
+  const response = await myData.save();
+  res.send(response);
+  res.end();
+});
+
