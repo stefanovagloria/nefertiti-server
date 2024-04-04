@@ -50,8 +50,6 @@ app.get("/admin/procedures/:id", async (req: Request, res: Response) => {
   const procedures = await schemas.Procedure.find({
      category: req.params.id 
   });
-
-
   res.json(procedures);
   res.end();
 });
@@ -63,6 +61,12 @@ app.post("/admin/procedures", async (req: Request, res: Response) => {
   res.send(response);
   res.end();
 });
+
+app.get("/admin/products", async(Req: Request, res: Response) =>{
+  const products = await schemas.Product.find();
+  res.json(products);
+  res.end();
+})
 
 app.post("/admin/products", async (req: Request, res: Response) => {
   const newProduct = req.body;
