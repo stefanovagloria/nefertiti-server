@@ -26,6 +26,12 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+app.get("/procedures", async (req: Request, res: Response) => {
+  const procedures = await schemas.Procedure.find();
+  res.json(procedures);
+  res.end();
+});
+
 app.post("/admin/categories", async (req: Request, res: Response) => {
   const newCategory = req.body;
   const myData = new schemas.Category(newCategory, []);
@@ -48,7 +54,7 @@ app.get("/admin/categories/:id", async (req: Request, res: Response) => {
 
 app.get("/admin/procedures/:id", async (req: Request, res: Response) => {
   const procedures = await schemas.Procedure.find({
-     category: req.params.id 
+    category: req.params.id
   });
   res.json(procedures);
   res.end();
@@ -62,11 +68,19 @@ app.post("/admin/procedures", async (req: Request, res: Response) => {
   res.end();
 });
 
-app.get("/admin/products", async(Req: Request, res: Response) =>{
-  const products = await schemas.Product.find();
+app.get("/admin/products", async (req: Request, res: Response) => {
+  const product = await schemas.Product.find();
+  res.json(product);
+  res.end();
+});
+
+app.get("/admin/products/:id", async (req: Request, res: Response) => {
+  const products = await schemas.Product.find({
+    category: req.params.id,
+  });
   res.json(products);
   res.end();
-})
+});
 
 app.post("/admin/products", async (req: Request, res: Response) => {
   const newProduct = req.body;
@@ -75,4 +89,3 @@ app.post("/admin/products", async (req: Request, res: Response) => {
   res.send(response);
   res.end();
 });
-
