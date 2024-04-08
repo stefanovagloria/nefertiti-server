@@ -32,6 +32,23 @@ app.get("/procedures", async (req: Request, res: Response) => {
   res.end();
 });
 
+app.get("/procedures/:id", async (req: Request, res: Response) => {
+  console.log(req.params.id)
+  const procedures = await schemas.Procedure.find({
+    category: req.params.id,
+  });
+  res.json(procedures);
+  res.end();
+});
+
+app.get("/products", async (req: Request, res: Response) => {
+  const products = await schemas.Product.find();
+  res.json(products);
+  res.end();
+});
+
+// ADMIN QUERIES
+
 app.post("/admin/categories", async (req: Request, res: Response) => {
   const newCategory = req.body;
   const myData = new schemas.Category(newCategory, []);
@@ -54,7 +71,7 @@ app.get("/admin/categories/:id", async (req: Request, res: Response) => {
 
 app.get("/admin/procedures/:id", async (req: Request, res: Response) => {
   const procedures = await schemas.Procedure.find({
-    category: req.params.id
+    category: req.params.id,
   });
   res.json(procedures);
   res.end();
