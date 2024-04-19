@@ -36,11 +36,22 @@ const productSchema = new Schema({
     relatedProducts: [{ type: Object }]
 });
 
+const orderSchema = new Schema({
+
+    user: { type: Object },
+    products: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+    }],
+    totalPrice: { type: Number }
+});
+
 
 const Category = mongoose.model('Category', categorySchema, 'categories');
 const Procedure = mongoose.model('Procedure', procedureSchema, 'procedures');
 const Product = mongoose.model('Product', procedureSchema, 'products');
+const Order = mongoose.model('Order', orderSchema, 'orders');
 
-const mySchemas = { 'Category': Category, 'Procedure': Procedure , 'Product': Product};
+const mySchemas = { 'Category': Category, 'Procedure': Procedure, 'Product': Product, 'Order': Order };
 
 module.exports = mySchemas;

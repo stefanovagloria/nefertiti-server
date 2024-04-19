@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 import dotenv from "dotenv";
 const schemas = require("./db/models/schemas");
 
+const path = require("path");
+
 dotenv.config();
 
 const app = express();
@@ -13,6 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.json());
 app.use(cors());
 
 mongoose
@@ -33,7 +36,7 @@ app.get("/procedures", async (req: Request, res: Response) => {
 });
 
 app.get("/procedures/:id", async (req: Request, res: Response) => {
-  console.log(req.params.id)
+  console.log(req.params.id);
   const procedures = await schemas.Procedure.find({
     category: req.params.id,
   });
@@ -44,6 +47,14 @@ app.get("/procedures/:id", async (req: Request, res: Response) => {
 app.get("/products", async (req: Request, res: Response) => {
   const products = await schemas.Product.find();
   res.json(products);
+  res.end();
+});
+
+app.post("/checkout", async (req: Request, res: Response) => {
+  const newOrder = req.body;
+  const myData = new schemas.Order(newOrder, []);
+  const response = await myData.save();
+  res.send(response);
   res.end();
 });
 
@@ -82,6 +93,20 @@ app.post("/admin/procedures", async (req: Request, res: Response) => {
   const myData = new schemas.Procedure(newProcedure, []);
   const response = await myData.save();
   res.send(response);
+  res.end();
+});
+
+app.put("/admin/procedures/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updateData = req.body;
+
+  const updatedProcedure = await schemas.Procedure.findOneAndUpdate(
+    { _id: id }, // Filter by ID
+    updateData, // Data to update
+    { new: true } // Return the updated document
+  );
+
+  res.json(updatedProcedure);
   res.end();
 });
 
