@@ -152,31 +152,41 @@ app.post("/admin/products", async (req: Request, res: Response) => {
 
 app.post(
   "/admin/upload",
-  upload.single("filename"),
+  upload.array("images"), // Adjust the limit as needed
   async (req: Request, res: Response) => {
+    try {
+      console.log('Uploading...');
+      const dateTime = Date.now();
+      
+      // Access the uploaded files from req.files
+      const files = req.files as Express.Multer.File[];
 
-    const dateTime = Date.now;
-    const storageRef = ref(
-      storage,
-      `files/${req.file.originalname}/${dateTime}`
-    );
+      // Loop through each file in files
+      for (const file of files) {
+        const storageRef = ref(
+          storage,
+          `files/${file.originalname}/${dateTime}`
+        );
+  
+        const metaData = {
+          contentType: file.mimetype
+        };
+  
+        // Access the file data using the 'data' property of the file buffer
+        const snapshot = await uploadBytesResumable(storageRef, file.buffer, metaData);
+        const downloadUrl = await getDownloadURL(snapshot.ref);
+        console.log("File successfully uploaded:", file.originalname);
+      }
 
-    const metaData = {
-      contentType: req.file.mimetype
+      res.send({
+        message: "Files uploaded to firebase",
+        fileCount: files.length
+      });
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      res.status(500).send({
+        error: "An error occurred while uploading files"
+      });
     }
-
-    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metaData);
-
-    const downloadUrl = await getDownloadURL(snapshot.ref);
-    console.log("File succesfully uploaded");
-
-    res.send({
-      message: "file uploaded to firebase",
-      name: req.file.originalname,
-      type: req.file.mimetype,
-      downloadUrl: downloadUrl
-    })
-
-
   }
 );
