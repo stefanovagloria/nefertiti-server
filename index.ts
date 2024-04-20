@@ -5,6 +5,24 @@ const router = require("./routes/router");
 const mongoose = require("mongoose");
 import dotenv from "dotenv";
 const schemas = require("./db/models/schemas");
+import { initializeApp } from "firebase/app";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import multer from "multer";
+import firebaseConfig from "../backend/config/firebase.config";
+
+console.log(firebaseConfig);
+
+
+initializeApp(firebaseConfig);
+
+const storage = getStorage();
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const path = require("path");
 
@@ -131,3 +149,34 @@ app.post("/admin/products", async (req: Request, res: Response) => {
   res.send(response);
   res.end();
 });
+
+app.post(
+  "/admin/upload",
+  upload.single("filename"),
+  async (req: Request, res: Response) => {
+
+    const dateTime = Date.now;
+    const storageRef = ref(
+      storage,
+      `files/${req.file.originalname}/${dateTime}`
+    );
+
+    const metaData = {
+      contentType: req.file.mimetype
+    }
+
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metaData);
+
+    const downloadUrl = await getDownloadURL(snapshot.ref);
+    console.log("File succesfully uploaded");
+
+    res.send({
+      message: "file uploaded to firebase",
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      downloadUrl: downloadUrl
+    })
+
+
+  }
+);
