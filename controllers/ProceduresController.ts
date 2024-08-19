@@ -56,8 +56,8 @@ router.put("/procedures/:id", async (req: Request, res: Response) => {
   res.end();
 });
 
-router.post("/procedures", async (req: Request, res: Response) => {
-  console.log('here');
+router.post("/", async (req: Request, res: Response) => {
+  console.log('POST from Procedures');
   const newProcedure = req.body;
   const myData = new Procedure(newProcedure, []);
   const response = await myData.save();

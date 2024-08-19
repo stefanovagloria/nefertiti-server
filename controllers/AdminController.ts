@@ -75,7 +75,7 @@ router.post(
   upload.array("images"),
   async (req: Request, res: Response) => {
     try {
-      console.log("Uploading...");
+      console.log("...");
       const dateTime = Date.now();
 
       const files = req.files as Express.Multer.File[];
