@@ -13,7 +13,7 @@ const productSchema = new Schema({
     promoPrice: { type: Number },
     characteristics: [{ type: Object }],
     description: { type: String },
-    relatedProducts: [{ type: Object }]
+    relatedProducts: [{ type: Object }],
 });
 
 export const Product = mongoose.model('Product', productSchema, 'products');

@@ -14,6 +14,7 @@ const categoryRoutes = require("./controllers/CategoriesController");
 const productRoutes = require("./controllers/ProductsController");
 const procedureRoutes = require("./controllers/ProceduresController");
 const orderRoutes = require("./controllers/OrdersController");
+const cartRoutes = require("./controllers/CartController");
 
 dotenv.config();
 
@@ -34,6 +35,8 @@ app.use("/categories", categoryRoutes);
 app.use("/products", productRoutes);
 app.use("/procedures", procedureRoutes);
 app.use("/orders", orderRoutes);
+app.use("/cart", cartRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
